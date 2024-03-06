@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createAuthWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import { createAuthWithEmailAndPassword, createUserDocFromAuth } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
 import './sign-up-form.styles.scss';
 import Button from "../button/button.component";
@@ -16,7 +16,7 @@ const SignUpForm = () => {
     const [formField, setFormField] = useState(defaultFormField);
     const { displayName, email, password, confirmPassword } = formField;
 
-    console.log(formField)
+    console.log('hit')
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -27,8 +27,12 @@ const SignUpForm = () => {
         }
 
         try {
-            const response = await createAuthWithEmailAndPassword(email, password);
-            console.log(response)
+            const { user } = await createAuthWithEmailAndPassword(email, password);
+
+
+            await createUserDocFromAuth(user, { displayName })
+
+
         } catch (error) {
             console.log('user creation encountered an error', error)
         }

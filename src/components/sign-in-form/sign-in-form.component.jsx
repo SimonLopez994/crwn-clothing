@@ -14,11 +14,11 @@ const SignInForm = () => {
     const [formField, setFormField] = useState(defaultFormField);
     const { email, password } = formField;
 
+
     console.log(formField)
 
     const signInWithGoogle = async () => {
-        const { user } = await signInWithGooglePopup();
-        await createUserDocFromAuth(user)
+        await signInWithGooglePopup();
     }
 
     const handleSubmit = async (event) => {
@@ -26,10 +26,10 @@ const SignInForm = () => {
 
 
         try {
-        const { user } = await signInUserAuthWithEmailAndPassword(email, password)
-        console.log(user)
+            const { user } = await signInUserAuthWithEmailAndPassword(email, password)
+ 
         } catch (error) {
-            switch(error.code){
+            switch (error.code) {
                 case 'auth/wrong-password':
                     alert('incorrect password for email');
                     break
@@ -39,17 +39,17 @@ const SignInForm = () => {
                 case 'auth/invalid-credential':
                     alert('invalid credentials');
                     break
-                    case 'auth/weak-password':
+                case 'auth/weak-password':
                     alert('Password should be at least 6 characters');
                     break
-                    
-                    default:
-                        console.log('this is the error:', error)
+
+                default:
+                    console.log('this is the error:', error)
             }
 
 
 
-           
+
         }
     }
 
@@ -72,7 +72,7 @@ const SignInForm = () => {
 
                 <div className="buttons-container">
                     <Button type="submit">Sign In</Button>
-                    <Button type="button" buttonType="google" onClick={signInWithGoogle}>Google Sign In</Button>
+                    <Button  buttonType="google" type="button" onClick={signInWithGoogle}>Google Sign In</Button>
                 </div>
 
             </form>

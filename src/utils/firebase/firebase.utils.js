@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -48,23 +48,28 @@ export const createUserDocFromAuth = async (userAuth) => {
         } catch (error) {
             console.error('Error al establecer el documento de usuario:', error);
         }
-        
+
     }
 
     return userDocRef;
 }
 
 export const createAuthWithEmailAndPassword = async (email, password) => {
-    if(!email || !password) return;
+    if (!email || !password) return;
 
     return await createUserWithEmailAndPassword(auth, email, password);
 }
 
 export const signInUserAuthWithEmailAndPassword = async (email, password) => {
-    if(!email || !password) return;
+    if (!email || !password) return;
 
     return await signInWithEmailAndPassword(auth, email, password);
-}
+};
+
+export const signOutUser = () => signOut(auth);
+
+export const onAuthStateChangedListener = (callback) =>
+    onAuthStateChanged(auth, callback)
 
 
 
